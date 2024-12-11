@@ -20,10 +20,7 @@ int ret(Chip8 *c8) {
 }
 
 // SYS: Jump to address
-void sys_addr(Chip8 *c8) {
-  c8->pc = c8->opcode & 0x0FFF;
-  c8->pc += 0x2;
-}
+void sys_addr(Chip8 *c8) { c8->pc = c8->opcode & 0x0FFF; }
 
 // CALL: Make a subroutine call
 int call_addr(Chip8 *c8) {
@@ -36,15 +33,11 @@ int call_addr(Chip8 *c8) {
   c8->stack[c8->sp++] = c8->pc;
   nnn = c8->opcode & 0x0FFF;
   c8->pc = nnn;
-  c8->pc += 0x2;
   return SUCCESS;
 }
 
 // JMP: Jump to address
-void jmp_addr(Chip8 *c8) {
-  c8->pc = c8->opcode & 0x0FFF;
-  c8->pc += 0x2;
-}
+void jmp_addr(Chip8 *c8) { c8->pc = c8->opcode & 0x0FFF; }
 
 // SE: Skip next instruction if Vx == kk
 void se_vx_byte(Chip8 *c8) {
@@ -230,7 +223,6 @@ void jp_v0_addr(Chip8 *c8) {
   uint16_t nnn;
   nnn = c8->opcode & 0x0FFF;
   c8->pc = nnn + c8->registers[0];
-  c8->pc += 0x2;
 }
 
 // RND: Set Vx = random byte AND kk
@@ -273,7 +265,7 @@ void drw_vx_vy_nibble(Chip8 *c8) {
 void skp_vx(Chip8 *c8) {
   uint8_t x;
   x = (c8->opcode & 0x0F00) >> 8;
-  if (c8->keyboard[c8->registers[x]])
+  if (c8->keypad[c8->registers[x]])
     c8->pc += 0x2;
   c8->pc += 0x2;
 }
@@ -282,7 +274,7 @@ void skp_vx(Chip8 *c8) {
 void sknp_vx(Chip8 *c8) {
   uint8_t x;
   x = (c8->opcode & 0x0F00) >> 8;
-  if (!c8->keyboard[c8->registers[x]])
+  if (!c8->keypad[c8->registers[x]])
     c8->pc += 0x2;
   c8->pc += 0x2;
 }
@@ -293,7 +285,7 @@ void ld_vx_k(Chip8 *c8) {
 
   int pressed_key = -1;
   for (int i = 0; i <= 0xF; i++) {
-    if (c8->keyboard[i]) {
+    if (c8->keypad[i]) {
       pressed_key = i;
       break;
     }

@@ -25,6 +25,8 @@ void print_sys_info(Chip8 *c8) {
   printf("PC: 0x%04X\n", c8->pc);
   printf("SP: 0x%04X\n", c8->sp);
   printf("I : 0x%04X\n", c8->IRegister);
+  printf("DT: %d\n", c8->delay_timer);
+  printf("ST: %d\n", c8->sound_timer);
   printf("===================================\n");
 
   // Print registers
@@ -44,10 +46,10 @@ void print_sys_info(Chip8 *c8) {
   }
   printf("===================================\n");
 
-  // Print keyboard
+  // Print keypad
   printf("Keypad\n");
   for (int i = 0; i < 16; i++) {
-    printf("Key %2d: %s", i, c8->keyboard[i] ? "X" : "");
+    printf("Key %2d: %s", i, c8->keypad[i] ? "X" : "");
     if ((i + 1) % 4 == 0)
       printf("\n");
   }

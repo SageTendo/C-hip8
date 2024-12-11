@@ -17,6 +17,10 @@
 #define SCREEN_WIDTH 64
 #define SCREEN_HEIGHT 32
 
+// Timers
+#define DELAY_TIMER 60
+#define SOUND_TIMER 60
+
 /**
  * Represents a Chip8 system
  *
@@ -63,7 +67,7 @@ typedef struct {
   int sp;
   int delay_timer;
   int sound_timer;
-  bool keyboard[16];
+  bool keypad[16];
   uint32_t buffer[SCREEN_WIDTH * SCREEN_HEIGHT];
 
   // Flags

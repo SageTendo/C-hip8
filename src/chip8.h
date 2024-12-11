@@ -21,9 +21,9 @@ int load_rom(Chip8 *c8, const char *rom_filename);
 
 int fetch_opcode(Chip8 *c8);
 int execute_instruction(Chip8 *c8);
-// int update_timers(Chip8 *c8);
+void update_timers(Chip8 *c8);
 
-/// @brief Handle SDL events and update the Chip8 keyboard state
+/// @brief Handle SDL events and update the Chip8 keypad state
 /// @param c8 The Chip8 instance for which to handle events
 // void handle_input(Chip8 *c8);
 

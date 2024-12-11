@@ -8,7 +8,7 @@ char *fmt(const char *fmt, ...) {
   va_list args;
   va_list args_copy;
   int len;
-  char *msg;
+  char *msg = NULL;
 
   // Start argument processing
   va_start(args, fmt);

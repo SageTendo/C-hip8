@@ -3,7 +3,7 @@
 /**
  * @brief Allocate memory for a new Chip8 instance and initialize its state.
  *
- * Initializes the Chip8 stack, memory, registers, and keyboard state.
+ * Initializes the Chip8 stack, memory, registers, and keypad state.
  * Loads the sprite data into memory. Initializes the program counter to 0x200,
  * which is the start of program memory. Initializes the stack pointer to 0.
  *
@@ -11,7 +11,7 @@
  * memory allocation fails.
  */
 Chip8 *initialize() {
-  Chip8 *c8;
+  Chip8 *c8 = NULL;
 
   c8 = malloc(sizeof(Chip8));
   if (c8 == NULL) {
@@ -22,12 +22,14 @@ Chip8 *initialize() {
   memset(c8->stack, 0, sizeof(c8->stack));
   memset(c8->memory, 0, sizeof(c8->memory));
   memset(c8->registers, 0, sizeof(c8->registers));
-  memset(c8->keyboard, 0, sizeof(c8->keyboard));
+  memset(c8->keypad, 0, sizeof(c8->keypad));
 
   c8->IRegister = 0;
   c8->opcode = 0;
   c8->pc = 0x200; // Start of program memory
   c8->sp = 0;
+  c8->delay_timer = DELAY_TIMER;
+  c8->sound_timer = SOUND_TIMER;
 
   // Load sprite data into memory
   for (int i = 0; i < 0x80; i++) {
@@ -51,8 +53,8 @@ Chip8 *initialize() {
  * @return Status of the operation (0 -> Success, 1 -> Error).
  */
 int load_rom(Chip8 *c8, const char *rom_filename) {
-  FILE *fp;
   char ch;
+  FILE *fp = NULL;
 
   log_info(fmt("Loading ROM: %s", rom_filename));
 
@@ -77,7 +79,7 @@ int load_rom(Chip8 *c8, const char *rom_filename) {
  * @brief Resets the Chip8 instance to its initial state.
  *
  * This function initializes the Chip8 system by clearing the stack,
- * memory, registers, and keyboard state. It sets the I register,
+ * memory, registers, and keypad state. It sets the I register,
  * opcode, program counter, and stack pointer to their default
  * starting values. The key_pressed flag is also reset to false.
  *
@@ -86,7 +88,8 @@ int load_rom(Chip8 *c8, const char *rom_filename) {
 void reset(Chip8 *c8) {
   memset(c8->stack, 0, sizeof(c8->stack));
   memset(c8->registers, 0, sizeof(c8->registers));
-  memset(c8->keyboard, 0, sizeof(c8->keyboard));
+  memset(c8->keypad, 0, sizeof(c8->keypad));
+  memset(c8->buffer, 0, sizeof(c8->buffer));
 
   c8->IRegister = 0;
   c8->opcode = 0;
@@ -266,4 +269,14 @@ int execute_instruction(Chip8 *c8) {
 
   log_info(fmt("Executed instruction: %04X", c8->opcode));
   return SUCCESS;
+}
+
+void update_timers(Chip8 *c8) {
+  if (c8->delay_timer > 0) {
+    c8->delay_timer--;
+    c8->sound_timer--;
+  } else {
+    c8->delay_timer = DELAY_TIMER;
+    c8->sound_timer = SOUND_TIMER;
+  }
 }
