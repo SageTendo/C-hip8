@@ -6,6 +6,8 @@
 int debugger_enabled = 0;
 void debugger_init(void) { debugger_enabled = 1; }
 
+bool is_debugger_enabled(void) { return debugger_enabled; }
+
 void print_sys_info(Chip8 *c8) {
   if (!debugger_enabled)
     return;
@@ -28,6 +30,8 @@ void print_sys_info(Chip8 *c8) {
   printf("DT: %d\n", c8->delay_timer);
   printf("ST: %d\n", c8->sound_timer);
   printf("===================================\n");
+  printf("Key Pressed: %-5d\n", c8->key_pressed);
+  printf("===================================\n");
 
   // Print registers
   printf("Registers\n");
@@ -49,7 +53,7 @@ void print_sys_info(Chip8 *c8) {
   // Print keypad
   printf("Keypad\n");
   for (int i = 0; i < 16; i++) {
-    printf("Key %2d: %s", i, c8->keypad[i] ? "X" : "");
+    printf("Key %2d: %-3s", i, c8->keypad[i] ? "X" : "");
     if ((i + 1) % 4 == 0)
       printf("\n");
   }

@@ -1,10 +1,6 @@
 #ifndef INSTRUCTIONS_H
 #define INSTRUCTIONS_H
 
-// Return codes for function calls
-#define SUCCESS 0
-#define ERR 1
-
 #include "chip8_types.h"
 
 // Function prototypes for CHIP-8 operations

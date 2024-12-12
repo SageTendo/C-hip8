@@ -1,38 +1,46 @@
 #include "screen.h"
+#include "debug.h"
 
 #define SCREEN_WIDTH 64
 #define SCREEN_HEIGHT 32
-int scale;
 
+int WIDTH, HEIGHT, x_scale, y_scale;
+
+/**
+ * Initialises the Chip8 screen
+ *
+ * @param W Screen width
+ * @param H Screen height
+ * @param fps Chip8 framerate
+ */
 void init_screen(int W, int H, int fps) {
   InitWindow(W, H, "Chip8 Emulator");
   SetTargetFPS(fps);
   ClearBackground(BLACK);
 
-  scale = floor(W / SCREEN_WIDTH);
+  x_scale = floor(W / SCREEN_WIDTH);
+  y_scale = floor(H / SCREEN_HEIGHT);
 }
 
-void draw_open(void) { BeginDrawing(); }
-void draw_close(void) { EndDrawing(); }
-
-void set_pixel(int x, int y, Color color) {
-  DrawRectangle(x * scale, y * scale, scale, scale, color);
-}
-
+/**
+ * Update the grahpics of the screen with the contents of the next frame buffer
+ *
+ * @param buffer Chip8 frame buffer
+ */
 void update_screen(uint32_t buffer[]) {
-  draw_open();
+  BeginDrawing();
   for (int x = 0; x < SCREEN_WIDTH; x++) {
     for (int y = 0; y < SCREEN_HEIGHT; y++) {
       if (buffer[x + (y * SCREEN_WIDTH)] == 1)
-        set_pixel(x, y, GREEN);
+        DrawRectangle(x * x_scale, y * y_scale, x_scale, y_scale, RAYWHITE);
       else
-        set_pixel(x, y, BLACK);
+        DrawRectangle(x * x_scale, y * y_scale, x_scale, y_scale, BLACK);
     }
   }
-  DrawFPS(0, 0);
-  draw_close();
+
+  if (is_debugger_enabled())
+    DrawFPS(0, 0);
+  EndDrawing();
 }
 
-void clear_screen(void) { ClearBackground(BLACK); }
-bool closeable(void) { return WindowShouldClose(); }
 void close_screen(void) { CloseWindow(); }

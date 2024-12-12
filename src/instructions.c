@@ -1,7 +1,7 @@
 #include "instructions.h"
 #include "logger.h"
 
-// FIXME: CLS: Clear the screen
+// CLS: Clear the screen
 void cls(Chip8 *c8) {
   memset(c8->buffer, 0, sizeof(c8->buffer));
   c8->pc += 0x2;
@@ -258,6 +258,7 @@ void drw_vx_vy_nibble(Chip8 *c8) {
       }
     }
   }
+
   c8->pc += 0x2;
 }
 
@@ -283,19 +284,20 @@ void sknp_vx(Chip8 *c8) {
 void ld_vx_k(Chip8 *c8) {
   uint8_t x;
 
-  int pressed_key = -1;
+  x = (c8->opcode & 0x0F00) >> 8;
+  c8->key_pressed = false;
+
   for (int i = 0; i <= 0xF; i++) {
-    if (c8->keypad[i]) {
-      pressed_key = i;
-      break;
+    if (c8->keypad[i] == true) {
+      c8->registers[x] = i;
+      c8->key_pressed = true;
     }
   }
 
-  if (pressed_key == -1)
+  if (!c8->key_pressed)
     return;
 
-  x = (c8->opcode & 0x0F00) >> 8;
-  c8->registers[x] = pressed_key;
+  c8->key_pressed = false;
   c8->pc += 0x2;
 }
 

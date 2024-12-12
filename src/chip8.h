@@ -19,7 +19,7 @@ void reset(Chip8 *c8);
 /// @return Status of the operation (0 -> Success, 1 -> Error)
 int load_rom(Chip8 *c8, const char *rom_filename);
 
-int fetch_opcode(Chip8 *c8);
+void fetch_opcode(Chip8 *c8);
 int execute_instruction(Chip8 *c8);
 void update_timers(Chip8 *c8);
 

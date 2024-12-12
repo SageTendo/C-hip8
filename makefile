@@ -25,6 +25,7 @@ $(EXEC): $(OBJS)
 # Clean Build Artifacts
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -rf $(OBJS)
 
 # Build Target
 build: $(EXEC)

@@ -8,6 +8,10 @@
 #include <string.h>
 #include <time.h>
 
+// Return codes for function calls
+#define SUCCESS 0
+#define ERR 1
+
 // Starting address of the program space in memory
 #define PROGRAM_MEM 0x200
 #define STACKSIZE 16
@@ -72,6 +76,9 @@ typedef struct {
 
   // Flags
   bool running;
+  bool paused;
+  bool reset;
+  bool key_pressed;
 } Chip8;
 
 // Sprite object

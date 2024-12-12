@@ -5,7 +5,6 @@
 #include "raylib.h"
 #include "stdint.h"
 
-bool key_pressed(int keycode);
 void handle_input(Chip8 *c8);
 
 #endif

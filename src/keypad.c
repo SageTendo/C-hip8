@@ -6,13 +6,22 @@ static const uint8_t KEYMAP[16] = {
     KEY_S, KEY_D,   KEY_Z,   KEY_C,     KEY_FOUR, KEY_R, KEY_F, KEY_V};
 
 void handle_input(Chip8 *c8) {
+  // Exit the program
+  if (IsKeyPressed(KEY_ESCAPE))
+    c8->running = false;
+
+  // Reset program
+  if (!c8->paused && IsKeyPressed(KEY_O))
+    c8->reset = true;
+
+  // Pause/Resume program
+  if (IsKeyPressed(KEY_P))
+    c8->paused = !c8->paused;
+
   for (int i = 0x0; i <= 0xF; i++) {
-    if (key_pressed(KEYMAP[i])) {
+    if (IsKeyDown(KEYMAP[i]))
       c8->keypad[i] = true;
-    } else {
+    else
       c8->keypad[i] = false;
-    }
   }
 }
-
-bool key_pressed(int keycode) { return IsKeyDown(keycode); }

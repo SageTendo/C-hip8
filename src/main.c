@@ -34,24 +34,15 @@ int main(int argc, char **argv) {
   }
 
   // Main program loop
-  while (!closeable()) {
-    if (chip8->running) {
+  while (chip8->running) {
+    if (!chip8->paused) {
       print_sys_info(chip8);
       fetch_opcode(chip8);
       execute_instruction(chip8);
     }
 
-    // Exit the program
-    if (key_pressed(KEY_ESCAPE))
-      break;
-
-    // Reset program
-    if (key_pressed(KEY_O))
+    if (chip8->reset)
       reset(chip8);
-
-    // Pause/Resume program
-    if (key_pressed(KEY_P))
-      chip8->running = !chip8->running;
 
     handle_input(chip8);
     update_screen(chip8->buffer);
