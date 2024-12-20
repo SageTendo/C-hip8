@@ -69,8 +69,8 @@ typedef struct {
   uint16_t opcode;
   uint16_t pc;
   int sp;
-  int delay_timer;
-  int sound_timer;
+  uint8_t delay_timer;
+  uint8_t sound_timer;
   bool keypad[16];
   uint32_t buffer[SCREEN_WIDTH * SCREEN_HEIGHT];
 
@@ -79,6 +79,7 @@ typedef struct {
   bool paused;
   bool reset;
   bool key_pressed;
+  bool draw;
 } Chip8;
 
 // Sprite object

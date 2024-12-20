@@ -244,6 +244,15 @@ int execute_instruction(Chip8 *c8) {
   return SUCCESS;
 }
 
+void cycle_cpu(Chip8 *c8) {
+  int instructions_count = 0;
+  while (instructions_count < 60) {
+    fetch_opcode(c8);
+    execute_instruction(c8);
+    instructions_count++;
+  };
+}
+
 void update_timers(Chip8 *c8) {
   if (c8->delay_timer > 0) {
     c8->delay_timer--;

@@ -28,7 +28,6 @@ void init_screen(int W, int H, int fps) {
  * @param buffer Chip8 frame buffer
  */
 void update_screen(uint32_t buffer[]) {
-  BeginDrawing();
   for (int x = 0; x < SCREEN_WIDTH; x++) {
     for (int y = 0; y < SCREEN_HEIGHT; y++) {
       if (buffer[x + (y * SCREEN_WIDTH)] == 1)
@@ -40,7 +39,6 @@ void update_screen(uint32_t buffer[]) {
 
   if (is_debugger_enabled())
     DrawFPS(0, 0);
-  EndDrawing();
 }
 
 void close_screen(void) { CloseWindow(); }

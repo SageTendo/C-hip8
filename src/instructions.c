@@ -259,6 +259,7 @@ void drw_vx_vy_nibble(Chip8 *c8) {
     }
   }
 
+  c8->draw = true;
   c8->pc += 0x2;
 }
 
@@ -285,20 +286,13 @@ void ld_vx_k(Chip8 *c8) {
   uint8_t x;
 
   x = (c8->opcode & 0x0F00) >> 8;
-  c8->key_pressed = false;
-
   for (int i = 0; i <= 0xF; i++) {
     if (c8->keypad[i] == true) {
       c8->registers[x] = i;
-      c8->key_pressed = true;
+      c8->pc += 0x2;
+      break;
     }
   }
-
-  if (!c8->key_pressed)
-    return;
-
-  c8->key_pressed = false;
-  c8->pc += 0x2;
 }
 
 // LD: Set Vx = delay_timer

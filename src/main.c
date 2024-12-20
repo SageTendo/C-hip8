@@ -35,18 +35,23 @@ int main(int argc, char **argv) {
 
   // Main program loop
   while (chip8->running) {
+    BeginDrawing();
     if (!chip8->paused) {
       print_sys_info(chip8);
-      fetch_opcode(chip8);
-      execute_instruction(chip8);
+      cycle_cpu(chip8);
     }
 
     if (chip8->reset)
       reset(chip8);
 
+    if (chip8->draw) {
+      update_screen(chip8->buffer);
+      chip8->draw = false;
+    }
+
     handle_input(chip8);
-    update_screen(chip8->buffer);
     update_timers(chip8);
+    EndDrawing();
   }
 
   close_screen();
