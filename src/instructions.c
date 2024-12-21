@@ -206,7 +206,7 @@ void shl_vx(Chip8 *c8) {
   y = (c8->opcode & 0x00F0) >> 4;
 
   c8->registers[x] = c8->registers[y];
-  c8->registers[0xF] = (c8->registers[x] & 0x80) >> 16;
+  c8->registers[0xF] = (c8->registers[x] & 0x80) >> 7;
   c8->registers[x] <<= 1;
   c8->pc += 0x2;
 }

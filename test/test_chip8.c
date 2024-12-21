@@ -119,7 +119,7 @@ void test_00ee(Chip8 *c8) {
   // Make return
   c8->opcode = 0x00EE;
   execute_instruction(c8);
-  custom_assert(c8->pc == 0x200, "0x00EE: Return failed");
+  custom_assert(c8->pc == 0x202, "0x00EE: Return failed");
   custom_assert(c8->sp == 0, "0x00EE: Stack pointer not decremented");
   reset(c8);
 }
@@ -156,14 +156,14 @@ void test_3xkk(Chip8 *c8) {
   c8->registers[1] = 0x5;
   c8->opcode = 0x3105;
   execute_instruction(c8);
-  custom_assert(old_pc + 2 == c8->pc, "0x3105: PC not incremented");
+  custom_assert(old_pc + 4 == c8->pc, "0x3105: PC not incremented");
   reset(c8);
 
   // Test False condition
   c8->registers[1] = 0x5;
   c8->opcode = 0x3101;
   execute_instruction(c8);
-  custom_assert(c8->pc == 0x200, "0x3101: PC changed");
+  custom_assert(c8->pc == 0x202, "0x3101: PC changed");
   reset(c8);
 }
 
@@ -175,14 +175,14 @@ void test_4xkk(Chip8 *c8) {
   c8->registers[1] = 0x5;
   c8->opcode = 0x4106;
   execute_instruction(c8);
-  custom_assert(old_pc + 2 == c8->pc, "0x4106: PC not incremented");
+  custom_assert(old_pc + 4 == c8->pc, "0x4106: PC not incremented");
   reset(c8);
 
   // Test False condition
   c8->registers[1] = 0x5;
   c8->opcode = 0x4105;
   execute_instruction(c8);
-  custom_assert(c8->pc == 0x200, "0x4101: PC changed");
+  custom_assert(c8->pc == 0x202, "0x4101: PC changed");
   reset(c8);
 }
 
@@ -192,7 +192,7 @@ void test_5xy0(Chip8 *c8) {
   old_pc = c8->pc;
   c8->opcode = 0x5010;
   execute_instruction(c8);
-  custom_assert(old_pc + 2 == c8->pc, "0x5010: PC not incremented");
+  custom_assert(old_pc + 4 == c8->pc, "0x5010: PC not incremented");
   reset(c8);
 }
 
@@ -306,7 +306,7 @@ void test_8xy5(Chip8 *c8) {
 
 void test_8xy6(Chip8 *c8) {
   // SHR Vx {, Vy}
-  c8->registers[0] = 0x4;
+  c8->registers[1] = 0x4;
   c8->opcode = 0x8016;
   execute_instruction(c8);
 
@@ -316,7 +316,7 @@ void test_8xy6(Chip8 *c8) {
   reset(c8);
 
   // Test overflow
-  c8->registers[0] = 0x3;
+  c8->registers[1] = 0x3;
   c8->opcode = 0x8016;
   execute_instruction(c8);
 
@@ -350,7 +350,7 @@ void test_8xy7(Chip8 *c8) {
 }
 
 void test_8xye(Chip8 *c8) {
-  c8->registers[0] = 0x5;
+  c8->registers[1] = 0x5;
   c8->opcode = 0x801E;
   execute_instruction(c8);
 
@@ -359,7 +359,7 @@ void test_8xye(Chip8 *c8) {
   custom_assert(c8->registers[0xF] == 0x0, "0x801E: Overflow flag set");
 
   // Test overflow
-  c8->registers[0] = 0xFF;
+  c8->registers[1] = 0xFF;
   c8->opcode = 0x801E;
   execute_instruction(c8);
 
@@ -375,7 +375,7 @@ void test_9xy0(Chip8 *c8) {
   c8->opcode = 0x9000;
   execute_instruction(c8);
 
-  custom_assert(c8->pc + 2 == 0x202, "0x9000: PC not incremented");
+  custom_assert(c8->pc + 2 == 0x204, "0x9000: PC not incremented");
   reset(c8);
 
   // Test false condition
@@ -384,7 +384,7 @@ void test_9xy0(Chip8 *c8) {
   c8->opcode = 0x9000;
   execute_instruction(c8);
 
-  custom_assert(c8->pc == 0x200, "0x9000: PC incremented");
+  custom_assert(c8->pc == 0x202, "0x9000: PC incremented");
 }
 
 void test_annn(Chip8 *c8) {
@@ -426,7 +426,7 @@ void test_ex9e(Chip8 *c8) {
   c8->keypad[0xA] = true;
   execute_instruction(c8);
 
-  custom_assert(c8->pc == 0x202, "0xE09E: Key not pressed");
+  custom_assert(c8->pc == 0x204, "0xE09E: Key not pressed");
   reset(c8);
 }
 
@@ -437,7 +437,7 @@ void test_exa1(Chip8 *c8) {
   c8->keypad[0xB] = true;
   execute_instruction(c8);
 
-  custom_assert(c8->pc == 0x202, "0xE0A1: Key pressed");
+  custom_assert(c8->pc == 0x204, "0xE0A1: Key pressed");
   reset(c8);
 }
 
@@ -450,11 +450,14 @@ void test_fx07(Chip8 *c8) {
 }
 
 void test_fx0a(Chip8 *c8) {
-  // TODO: Add test for waiting for key press
-  // c8->opcode = 0xF00A;
-  // execute_instruction(c8);
-  // // handle_input(c8);
-  // print_sys_info(c8);
+  // LD Vx, Key
+  c8->opcode = 0xF00A;
+  c8->keypad[0x0] = true;
+  execute_instruction(c8);
+
+  custom_assert(c8->registers[0] == 0x0, "0xF00A: Reg 0 not correctly set");
+  custom_assert(c8->pc == 0x202, "0xF00A: PC not incremented");
+  reset(c8);
 }
 
 void test_fx15(Chip8 *c8) {
@@ -560,7 +563,7 @@ void test_fx55(Chip8 *c8) {
   execute_instruction(c8);
 
   for (int reg = 0; reg <= 0xF; reg++) {
-    custom_assert(c8->memory[c8->IRegister + reg] == c8->registers[reg],
+    custom_assert(c8->memory[reg] == c8->registers[reg],
                   "0xF055: Register not stored correctly");
   }
 }
