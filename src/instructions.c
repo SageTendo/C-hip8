@@ -301,16 +301,13 @@ void sknp_vx(Chip8 *c8) {
 }
 
 // 0xFX07 -> LD: Set Vx = k (Blocking for key press)
-void ld_vx_k(Chip8 *c8) {
+void ld_vx_k(Chip8 *c8, int key) {
   uint8_t x;
 
   x = (c8->opcode & 0x0F00) >> 8;
-  for (int i = 0; i <= 0xF; i++) {
-    if (c8->keypad[i] == true) {
-      c8->registers[x] = i;
-      c8->pc += 0x2;
-      break;
-    }
+  if (key > -1) {
+    c8->registers[x] = key;
+    c8->pc += 0x2;
   }
 }
 

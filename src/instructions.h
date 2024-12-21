@@ -30,7 +30,7 @@ void rnd_vx_kk(Chip8 *c8);
 void drw_vx_vy_nibble(Chip8 *c8);
 void skp_vx(Chip8 *c8);
 void sknp_vx(Chip8 *c8);
-void ld_vx_k(Chip8 *c8);
+void ld_vx_k(Chip8 *c8, int key);
 void ld_vx_dt(Chip8 *c8);
 void ld_dt_vx(Chip8 *c8);
 void ld_st_vx(Chip8 *c8);

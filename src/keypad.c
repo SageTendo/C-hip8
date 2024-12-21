@@ -19,9 +19,21 @@ void handle_input(Chip8 *c8) {
     c8->paused = !c8->paused;
 
   for (int i = 0x0; i <= 0xF; i++) {
-    if (IsKeyDown(KEYMAP[i]))
-      c8->keypad[i] = true;
-    else
-      c8->keypad[i] = false;
+    c8->keypad[i] = IsKeyDown(KEYMAP[i]);
   }
+}
+
+int wait_for_key(Chip8 *c8) {
+  for (int i = 0x0; i <= 0xF; i++) {
+    if (IsKeyDown(KEYMAP[i])) {
+      return -1;
+    }
+
+    if (c8->keypad[i]) {
+      c8->keypad[i] = false;
+      return i;
+    }
+  }
+
+  return -1;
 }

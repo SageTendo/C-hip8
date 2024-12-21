@@ -423,7 +423,7 @@ void test_ex9e(Chip8 *c8) {
   // SKP Vx
   c8->opcode = 0xE09E;
   c8->registers[0] = 0xA;
-  c8->keyboard[0xA] = true;
+  c8->keypad[0xA] = true;
   execute_instruction(c8);
 
   custom_assert(c8->pc == 0x202, "0xE09E: Key not pressed");
@@ -434,7 +434,7 @@ void test_exa1(Chip8 *c8) {
   // SKNP Vx
   c8->opcode = 0xE0A1;
   c8->registers[0] = 0xA;
-  c8->keyboard[0xB] = true;
+  c8->keypad[0xB] = true;
   execute_instruction(c8);
 
   custom_assert(c8->pc == 0x202, "0xE0A1: Key pressed");

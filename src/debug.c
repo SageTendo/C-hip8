@@ -30,8 +30,6 @@ void print_sys_info(Chip8 *c8) {
   printf("DT: %d\n", c8->delay_timer);
   printf("ST: %d\n", c8->sound_timer);
   printf("===================================\n");
-  printf("Key Pressed: %-5d\n", c8->key_pressed);
-  printf("===================================\n");
 
   // Print registers
   printf("Registers\n");

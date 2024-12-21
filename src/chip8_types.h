@@ -78,7 +78,6 @@ typedef struct {
   bool running;
   bool paused;
   bool reset;
-  bool key_pressed;
   bool draw;
 } Chip8;
 

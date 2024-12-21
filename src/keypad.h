@@ -6,5 +6,6 @@
 #include "stdint.h"
 
 void handle_input(Chip8 *c8);
+int wait_for_key(Chip8 *c8);
 
 #endif

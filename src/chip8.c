@@ -1,4 +1,5 @@
 #include "chip8.h"
+#include "keypad.h"
 
 /**
  * @brief Allocate memory for a new Chip8 instance and initialize its state.
@@ -28,7 +29,7 @@ Chip8 *initialize() {
  * This function initializes the Chip8 system by clearing the stack,
  * memory, registers, and keypad state. It sets the I register,
  * opcode, program counter, and stack pointer to their default
- * starting values. The key_pressed flag is also reset to false.
+ * starting values.
  *
  * @param c8 A pointer to the Chip8 instance to reset.
  */
@@ -91,7 +92,6 @@ int load_rom(Chip8 *c8, const char *rom_filename) {
  */
 void fetch_opcode(Chip8 *c8) {
   c8->opcode = (c8->memory[c8->pc] << 8) | c8->memory[c8->pc + 1];
-  log_info(fmt("Fetched instruction: %04X", c8->opcode));
 }
 
 /**
@@ -206,7 +206,8 @@ int execute_instruction(Chip8 *c8) {
       ld_vx_dt(c8);
       break;
     case 0x0A:
-      ld_vx_k(c8);
+      int key = wait_for_key(c8);
+      ld_vx_k(c8, key);
       break;
     case 0x15:
       ld_dt_vx(c8);
@@ -240,7 +241,6 @@ int execute_instruction(Chip8 *c8) {
     return ERR;
   }
 
-  log_info(fmt("Executed instruction: %04X", c8->opcode));
   return SUCCESS;
 }
 
