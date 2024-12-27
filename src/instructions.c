@@ -269,6 +269,8 @@ void drw_vx_vy_nibble(Chip8 *c8) {
         // Collision
         if (c8->buffer[x_pos + (y_pos * 64)] == 1)
           c8->registers[0xF] = 1;
+        else
+          c8->registers[0xF] = 0;
 
         c8->buffer[x_pos + (y_pos * 64)] ^= 1;
       }

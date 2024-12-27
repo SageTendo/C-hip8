@@ -25,9 +25,10 @@ int main(int argc, char **argv) {
   // Setup Chip8 system
   rom_filename = argv[1];
   Chip8 *chip8 = initialize();
+  const int FPS = 60;
   if (chip8 != NULL) {
     load_rom(chip8, rom_filename);
-    init_screen(640, 480, 60);
+    init_screen(640, 480, FPS);
     log_info("System initialised...");
   } else {
     return ERR;
@@ -38,7 +39,7 @@ int main(int argc, char **argv) {
     BeginDrawing();
     if (!chip8->paused) {
       print_sys_info(chip8);
-      cycle_cpu(chip8);
+      cycle_cpu(chip8, FPS);
     }
 
     if (chip8->reset)

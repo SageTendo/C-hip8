@@ -19,13 +19,16 @@ void reset(Chip8 *c8);
 /// @return Status of the operation (0 -> Success, 1 -> Error)
 int load_rom(Chip8 *c8, const char *rom_filename);
 
+// Fetch opcode from memory and store it in the Chip8 instance
 void fetch_opcode(Chip8 *c8);
-int execute_instruction(Chip8 *c8);
-void update_timers(Chip8 *c8);
-void cycle_cpu(Chip8 *c8);
 
-/// @brief Handle SDL events and update the Chip8 keypad state
-/// @param c8 The Chip8 instance for which to handle events
-// void handle_input(Chip8 *c8);
+// Execute the current opcode that is stored in the Chip8 instance
+int execute_instruction(Chip8 *c8);
+
+// Update the timers of the Chip8 instance
+void update_timers(Chip8 *c8);
+
+// Execute instructions for one CPU cycle
+void cycle_cpu(Chip8 *c8, int max_cycles);
 
 #endif

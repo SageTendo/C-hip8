@@ -244,12 +244,12 @@ int execute_instruction(Chip8 *c8) {
   return SUCCESS;
 }
 
-void cycle_cpu(Chip8 *c8) {
-  int instructions_count = 0;
-  while (instructions_count < 60) {
+void cycle_cpu(Chip8 *c8, int max_cycles) {
+  int cycle = 0;
+  while ((cycle < max_cycles) && c8->running) {
     fetch_opcode(c8);
     execute_instruction(c8);
-    instructions_count++;
+    cycle++;
   };
 }
 
