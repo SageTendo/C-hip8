@@ -1,4 +1,4 @@
-# C-hip8: A CHIP-8 Emulator in C
+# C-hip8: A CHIP-8 Emulator
 
 ## Overview
 
