@@ -35,6 +35,8 @@ clean:
 # Run Test
 test: $(TEST_EXEC)
 	./$(TEST_EXEC)
+	echo
+	rm -rf $(OBJS)	
 
 # Build Test Executable
 $(TEST_EXEC): $(TEST_SRCS) $(SRC_DIR)/chip8.o $(SRC_DIR)/debug.o $(SRC_DIR)/instructions.o $(SRC_DIR)/keypad.o $(SRC_DIR)/logger.o
