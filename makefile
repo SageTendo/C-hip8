@@ -9,7 +9,7 @@ BUILD_DIR = build
 TEST_DIR = test
 
 # Files
-SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/chip8.c $(SRC_DIR)/debug.c $(SRC_DIR)/instructions.c $(SRC_DIR)/screen.c $(SRC_DIR)/keypad.c $(SRC_DIR)/logger.c
+SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/chip8.c $(SRC_DIR)/debug.c $(SRC_DIR)/instructions.c $(SRC_DIR)/screen.c $(SRC_DIR)/speaker.c $(SRC_DIR)/keypad.c $(SRC_DIR)/logger.c
 OBJS = $(SRCS:.c=.o)
 EXEC = $(BUILD_DIR)/chip8
 

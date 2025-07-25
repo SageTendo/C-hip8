@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "raylib.h"
 
 // Return codes for function calls
 #define SUCCESS 0
@@ -24,6 +25,9 @@
 // Timers
 #define DELAY_TIMER 60
 #define SOUND_TIMER 60
+
+// Resources
+#define SFX "./res/beep.wav"
 
 /**
  * Represents a Chip8 system
@@ -73,6 +77,7 @@ typedef struct {
   uint8_t sound_timer;
   bool keypad[16];
   uint32_t buffer[SCREEN_WIDTH * SCREEN_HEIGHT];
+  Sound sfx;
 
   // Flags
   bool running;

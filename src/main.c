@@ -2,6 +2,7 @@
 #include "debug.h"
 #include "keypad.h"
 #include "screen.h"
+#include "speaker.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -29,6 +30,7 @@ int main(int argc, char **argv) {
   if (chip8 != NULL) {
     load_rom(chip8, rom_filename);
     init_screen(640, 480, FPS);
+    init_speaker(chip8);
     log_info("System initialised...");
   } else {
     return ERR;
@@ -50,12 +52,17 @@ int main(int argc, char **argv) {
       chip8->draw = false;
     }
 
+    if (chip8->sound_timer > 0) {
+        PlaySound(chip8->sfx);
+    }
+
     handle_input(chip8);
     update_timers(chip8);
     EndDrawing();
   }
 
   close_screen();
+  close_speaker(chip8);
   free(chip8);
   return SUCCESS;
 }
