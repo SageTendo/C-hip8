@@ -27,7 +27,7 @@
 #define SOUND_TIMER 60
 
 // Resources
-#define SFX "./res/beep.wav"
+#define SFX "./res/beep.mp3"
 
 /**
  * Represents a Chip8 system

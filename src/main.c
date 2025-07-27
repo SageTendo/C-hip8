@@ -52,11 +52,8 @@ int main(int argc, char **argv) {
       chip8->draw = false;
     }
 
-    if (chip8->sound_timer > 0) {
-        PlaySound(chip8->sfx);
-    }
-
     handle_input(chip8);
+    handle_sound(chip8);
     update_timers(chip8);
     EndDrawing();
   }

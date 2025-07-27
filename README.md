@@ -9,7 +9,7 @@
 - **Complete CHIP-8 Instruction Set**: Implements all standard CHIP-8 opcodes.
 - **Display Rendering**: Uses Raylib for efficient graphical output.
 - **Keyboard Input Handling**: Maps the original CHIP-8 keypad to the modern keyboard layout.
-- **Sound Support**: Emulates the CHIP-8's sound capabilities. [W.I.P, but implemented]
+- **Sound Support**: Emulates the CHIP-8's sound capabilities (a measly 1-bit sound).
 
 ## Getting Started
 
