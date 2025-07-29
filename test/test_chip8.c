@@ -306,7 +306,7 @@ void test_8xy5(Chip8 *c8) {
 
 void test_8xy6(Chip8 *c8) {
   // SHR Vx {, Vy}
-  c8->registers[1] = 0x4;
+  c8->registers[0] = 0x4;
   c8->opcode = 0x8016;
   execute_instruction(c8);
 
@@ -316,7 +316,7 @@ void test_8xy6(Chip8 *c8) {
   reset(c8);
 
   // Test overflow
-  c8->registers[1] = 0x3;
+  c8->registers[0] = 0x3;
   c8->opcode = 0x8016;
   execute_instruction(c8);
 
@@ -350,7 +350,7 @@ void test_8xy7(Chip8 *c8) {
 }
 
 void test_8xye(Chip8 *c8) {
-  c8->registers[1] = 0x5;
+  c8->registers[0] = 0x5;
   c8->opcode = 0x801E;
   execute_instruction(c8);
 
@@ -359,7 +359,7 @@ void test_8xye(Chip8 *c8) {
   custom_assert(c8->registers[0xF] == 0x0, "0x801E: Overflow flag set");
 
   // Test overflow
-  c8->registers[1] = 0xFF;
+  c8->registers[0] = 0xFF;
   c8->opcode = 0x801E;
   execute_instruction(c8);
 
@@ -415,8 +415,16 @@ void test_cxkk(Chip8 *c8) {
 }
 
 void test_dxyn(Chip8 *c8) {
-  // TODO: Add test to check if the screen is updated
   c8->opcode = 0xD123;
+  c8->IRegister = 0x300;
+  c8->memory[0x300] = 0b11110000;
+  execute_instruction(c8);
+
+  // Todo: How to test screen buffer?
+  custom_assert(c8->pc == 0x202, "0xD000: PC not incremented");
+  custom_assert(c8->registers[0xF] == 0x0, "0xD000: Overflow flag set");
+  custom_assert(c8->draw == true, "0xD000: Draw flag not set");
+  reset(c8);
 }
 
 void test_ex9e(Chip8 *c8) {

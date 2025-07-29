@@ -122,7 +122,6 @@ void and_vx_vy(Chip8 *c8) {
   x = (c8->opcode & 0x0F00) >> 8;
   y = (c8->opcode & 0x00F0) >> 4;
   c8->registers[x] &= c8->registers[y];
-  c8->registers[0xF] = 0;
   c8->pc += 0x2;
 }
 
@@ -133,7 +132,6 @@ void xor_vx_vy(Chip8 *c8) {
   x = (c8->opcode & 0x0F00) >> 8;
   y = (c8->opcode & 0x00F0) >> 4;
   c8->registers[x] ^= c8->registers[y];
-  c8->registers[0xF] = 0;
   c8->pc += 0x2;
 }
 
@@ -176,7 +174,6 @@ void shr_vx(Chip8 *c8) {
   x = (c8->opcode & 0x0F00) >> 8;
   y = (c8->opcode & 0x00F0) >> 4;
 
-  c8->registers[x] = c8->registers[y];
   c8->registers[0xF] = c8->registers[x] & 0x1;
   c8->registers[x] >>= 1;
   c8->pc += 0x2;
@@ -205,7 +202,6 @@ void shl_vx(Chip8 *c8) {
   x = (c8->opcode & 0x0F00) >> 8;
   y = (c8->opcode & 0x00F0) >> 4;
 
-  c8->registers[x] = c8->registers[y];
   c8->registers[0xF] = (c8->registers[x] & 0x80) >> 7;
   c8->registers[x] <<= 1;
   c8->pc += 0x2;
@@ -303,6 +299,15 @@ void sknp_vx(Chip8 *c8) {
 }
 
 // 0xFX07 -> LD: Set Vx = k (Blocking for key press)
+void ld_vx_dt(Chip8 *c8) {
+  uint8_t x;
+
+  x = (c8->opcode & 0x0F00) >> 8;
+  c8->registers[x] = c8->delay_timer;
+  c8->pc += 0x2;
+}
+
+// 0xF0A -> LD: Set Vx = delay_timer
 void ld_vx_k(Chip8 *c8, int key) {
   uint8_t x;
 
@@ -311,15 +316,6 @@ void ld_vx_k(Chip8 *c8, int key) {
     c8->registers[x] = key;
     c8->pc += 0x2;
   }
-}
-
-// 0xF0A -> LD: Set Vx = delay_timer
-void ld_vx_dt(Chip8 *c8) {
-  uint8_t x;
-
-  x = (c8->opcode & 0x0F00) >> 8;
-  c8->registers[x] = c8->delay_timer;
-  c8->pc += 0x2;
 }
 
 // 0xFX15 -> LD: Set delay_timer = Vx
